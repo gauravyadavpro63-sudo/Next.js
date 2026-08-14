@@ -1,14 +1,8 @@
+import { auth } from '@clerk/nextjs/server'
 
-import Aboutcomponent from "@/components/aboutcomponet"
+export default async function Page() {
+  // Redirects to the sign-in route if the user is not signed in
+  await auth.protect()
 
-function Aboutus(){
-    return(
-        <>
-        <h1>about us</h1>
-        <Aboutcomponent/>
-        </>
-    )
+  return <h1>Hello world</h1>
 }
-
-
-export default Aboutus
