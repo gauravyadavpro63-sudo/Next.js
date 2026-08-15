@@ -4,6 +4,7 @@ import Link from "next/link";
 import "./globals.css";
 import { ClerkProvider, Show, UserButton } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toast";
 
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange> 
+            <Toaster/>
             {children}
             </ThemeProvider>
          
