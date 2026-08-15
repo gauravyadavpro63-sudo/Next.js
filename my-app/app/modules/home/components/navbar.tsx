@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { SignInButton,SignUpButton } from "@clerk/nextjs"
+import { SignInButton,SignUpButton, UserButton } from "@clerk/nextjs"
 import { Show} from "@clerk/nextjs"
 import Link from "next/link"
 import Image from "next/image"
+import { ModeToggle } from "@/components/mode-toggle"
 
 function Navbar(){
     return(
@@ -12,8 +13,14 @@ function Navbar(){
                   <div className="px-6 py-4 flex justify-between items-center">
                     <Link href={"/"} className="flex items-center gap-y-2.5">
                     <Image src={"/logo.svg"} alt="TreeBio" width={42} height={42}/>
-                    </Link>
                     <span className="font-bold text-2xl tracking-widest text-[#41B313]">TreeBio</span>
+                    </Link>
+                    <div className="flex items-center gap-4">
+                        <ModeToggle/>
+                        <Show when={"signed-in"}><UserButton showName/></Show>
+                        
+                    </div>
+                    
                   </div>
                   </div>
         </nav>
