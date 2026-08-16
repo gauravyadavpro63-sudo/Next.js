@@ -1,3 +1,35 @@
+import { Button } from "@/components/ui/button";
+import { profile } from "console";
+import { Brush, Share } from "lucide-react";
+import LinkForm from "@/app/modules/links/component/link-form";
+
 export default function MyTreePage() {
-  return <h1></h1>
+  return(
+    <section className="flex flex-col gap-6 px-4 py-6">
+   <div className="flex flex-row items-center justify-between w-full">
+    <div className="flex flex-row justify-center items-center gap-3">
+      <Button variant="outline" size="default" className="gap-2 bg-transparent">
+        <Brush size={16}/>
+        Design
+      </Button>
+      <Button variant="default" size="default" className="gap-2">
+        <Share size={16}/>
+        Share
+
+      </Button>
+    </div>
+   </div>
+
+
+
+   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start py-14">
+    <div className="order-2 lg:order-1 border-r">
+      <LinkForm
+       username={profile?.username!}
+       bio={profile?.bio!}    
+    />
+    </div>
+   </div>
+    </section>
+  )
 }

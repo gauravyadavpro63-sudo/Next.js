@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Network, TreePine } from "lucide-react"
+import { LayoutDashboard, Network, TreePine,Settings } from "lucide-react"
 
 import {
   Sidebar,
@@ -19,6 +19,7 @@ import {
 const navigation = [
   { title: "Overview", href: "/admin/overview", icon: LayoutDashboard },
   { title: "My Tree", href: "/admin/my-tree", icon: TreePine },
+  {title: "Settings", href :"/admin/Settings",icon: Settings}
 ]
 
 export function AppSidebar() {
@@ -31,8 +32,8 @@ export function AppSidebar() {
           href="/admin/overview"
           className="flex items-center gap-2 rounded-md px-2 py-1.5 font-semibold"
         >
-          <Network className="size-5" />
-          <span>Tree Admin</span>
+          <img src="/logo.svg" alt="" />
+          <span >Tree Admin</span>
         </Link>
       </SidebarHeader>
 
@@ -47,6 +48,7 @@ export function AppSidebar() {
                     render={<Link href={item.href} />}
                     isActive={pathname === item.href}
                     tooltip={item.title}
+                    className="h-12 text-base"
                   >
                     <item.icon />
                     <span>{item.title}</span>
