@@ -4,10 +4,12 @@ import onBoardUser from "../modules/auth/actions"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import ClaimLinkForm from "../modules/home/components/claim-link-form"
+import { getCurrentUsername } from "../modules/profile/action"
 
 async function HomePage(){
     await auth.protect()
-    await onBoardUser()
+    const  user=await onBoardUser()
+    const profile=await getCurrentUsername()
     return(
         
         <div className="min-h-screen">
@@ -24,11 +26,15 @@ async function HomePage(){
               help you share everything you create, curate and sell from your
               social media profiles.
             </p>
-            <div className="pt-4">
+          {
+            user.success&&profile?.username&&(
+                <div className="pt-4">
                 <Link href="/admin/my-tree">
                 <Button size="lg" className="px-8 py-3 text-lg font-medium cursor-pointer">TreeBio Dashboard</Button>
                 </Link>
             </div>
+            )
+          }
           </div>
           
 

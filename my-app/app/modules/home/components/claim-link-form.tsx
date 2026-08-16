@@ -1,32 +1,83 @@
 "use client"
-
+import {useState,useEffect, useEffectEvent} from "react"
+import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {Check,Link,Loader2} from "lucide-react"
-import { useRouter } from "next/navigation"
-import { useState,useEffect } from "react";
 import {toast} from "sonner"
+import {useRouter} from "next/navigation"
+import checkProfileUsernameAvailability, { claimUsername } from "../../profile/action"
+import { ClaimUsername } from "../../profile/action"
 
 function ClaimLinkForm(){
+  const router = useRouter();
+  const [origin, setOrigin] = useState("");
+  const [linkValue, setLinkValue] = useState("");
+  const [isChecking, setIsChecking] = useState(false);
+  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isClaming, setIsClaiming] = useState(false);
 
-    const router=useRouter();
-    const [origin,setOrigin]=useState("");
-    const [linkValue,setLinkValue]=useState("");
-    const [isChecking,setIsChecking]=useState(false)
-    const [isAvailable,setIsAvailable]=useState<boolean|null>(null);
-    const [suggestions,setSuggestions]=useState<string[]>([]);
-    const [isClaming,setIsClaiming]=useState(false);
 
-    useEffect(()=>{
-     if(typeof window!=="undefined"){
-        setOrigin(window.location.origin)
-     }
-    },[])
+  useEffect(()=>{
+    if(typeof window !==undefined){
+      setOrigin(window.location.origin)
+    }
+  },[])
 
-     const displayOrigin=origin
-     ?origin.replace("https://","").replace("http://","")
-        :"treebio.com";
-    return(
-         <div className="space-y-8 max-w-md mx-auto w-full">
+ const displayOrigin =origin?origin.replace("https://","").replace("http://",""):"trebio.com"
+
+
+ useEffect(()=>{
+  if(linkValue.trim()){
+    const timer=setTimeout(async()=>{
+      setIsChecking(true)
+      try{
+        const result=await checkProfileUsernameAvailability(linkValue)
+        setIsAvailable(result.available)
+        setSuggestions(result.suggestions||[])
+      }
+      catch(error){
+        console.log(error)
+      }
+      finally{
+        setIsChecking(false)
+      }
+    })
+  }
+  else{
+     setIsAvailable(null);
+     setSuggestions([]);
+  }
+ },[linkValue])
+const handleSubmit = async function (e: React.SubmitEvent<HTMLFormElement>)  {
+ try{
+  e.preventDefault();
+  if(linkValue.trim()&&isAvailable){
+    setIsClaiming(true);
+    const result =await ClaimUsername(linkValue)
+    if(result.success){
+      toast.success("link claimed successfully")
+      setLinkValue("")
+      router.push("/admin/myTree")
+    }
+  }
+ }
+ catch(error){
+  console.error("Error clamiming link:",error);
+  toast.error("Failed to claim link. please try again")
+ }
+ finally{
+  setIsClaiming(false);
+ }
+}
+
+
+
+
+
+
+  return(
+ <div className="space-y-8 max-w-md mx-auto w-full">
       {/* Form */}
       <form
         className="space-y-6 flex flex-col items-center"
@@ -126,5 +177,6 @@ function ClaimLinkForm(){
     </div>
   );
 }
-    
+
+
 export default ClaimLinkForm
