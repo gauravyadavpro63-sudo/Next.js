@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { profile } from "console";
 import { Brush, Share } from "lucide-react";
 import LinkForm from "@/app/modules/links/component/link-form";
-
-export default function MyTreePage() {
+import { getCurrentUsername } from "@/app/modules/profile/action";
+export default async function MyTreePage() {
+  const profile=await getCurrentUsername()
   return(
     <section className="flex flex-col gap-6 px-4 py-6">
    <div className="flex flex-row items-center justify-between w-full">
