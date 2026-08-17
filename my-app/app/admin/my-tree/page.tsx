@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { profile } from "console";
 import { Brush, Share } from "lucide-react";
 import LinkForm from "@/app/modules/links/component/link-form";
 import { getCurrentUsername } from "@/app/modules/profile/action";
@@ -23,8 +22,8 @@ export default async function MyTreePage() {
 
 
 
-   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start py-14">
-    <div className="order-2 lg:order-1 border-r">
+   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start py-14 w-full">
+    <div className="order-2 lg:order-1 border-r w-full">
       <LinkForm
        username={profile?.username!}
        bio={profile?.bio!}    

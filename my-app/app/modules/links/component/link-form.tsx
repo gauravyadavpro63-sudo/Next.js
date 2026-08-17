@@ -38,6 +38,10 @@ interface Profile{
 
 function LinkForm({username,bio}:Props){
     const currentUser=useUser();
+    const[editingProfile,setEditingProfile]=useState(false); 
+
+
+
     const [profile,setProfile]=useState<Profile>({
         firstName:currentUser.user?.firstName||"",
         lastName:username||"",
@@ -45,6 +49,10 @@ function LinkForm({username,bio}:Props){
         bio:bio||"",
         imageUrl:currentUser?.user?.imageUrl
     })
+
+
+
+    
     return(
       <div className="w-full max-w-2xl mx-auto space-y-6">
           {/* profile section */}
@@ -53,7 +61,7 @@ function LinkForm({username,bio}:Props){
              <div className="relative group">
                <Avatar className="h-20 w-20 border-4 border-white shadow-lg">
                 <AvatarImage
-                src={profile.imageUrl||"placeholder.svg"}
+                src={profile.imageUrl||"/placeholder.webp"}
                 alt={profile.username}
                 />
                 <AvatarFallback className="text-lg font-semibold bg-gray-100 text-grey-600">
@@ -67,6 +75,38 @@ function LinkForm({username,bio}:Props){
 
                ><Camera size={14}/>
                </Button>
+
+
+
+
+                <div>
+                    <div className="flex-1 space-y-2">
+              {
+                editingProfile?(
+                 <div></div>
+                ):(
+                    <div className="space-y-1">
+                        <div className="flex item-center gap-2">
+                            <h3 className="font-semibold text-lg">
+                                {profile.username||"Add username..."}
+                            </h3>
+                            <Button 
+                            size="sm"
+                                variant="ghost"
+                                className="h-6 w-6 p-0"
+                                onClick={()=>setEditingProfile(true)}
+                                >
+                                    <Edit3 size={12}/>
+                            </Button>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                            {profile.bio||"Add bio..."}
+                        </p>
+                    </div>
+                )
+              }
+                    </div>
+                </div>
              </div>
             </CardContent>
           </Card>
