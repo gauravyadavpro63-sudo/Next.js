@@ -26,7 +26,8 @@ export default async function MyTreePage() {
     <div className="order-2 lg:order-1 border-r w-full">
       <LinkForm
        username={profile?.username!}
-       bio={profile?.bio!}    
+       bio={profile?.bio!}  
+         
     />
     </div>
    </div>

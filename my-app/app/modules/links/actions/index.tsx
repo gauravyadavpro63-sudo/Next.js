@@ -2,6 +2,7 @@
 
 import {db} from "@/lib/db";
 import { currentUser } from "@clerk/nextjs/server";
+import { LinkFormData } from "../component/link-form";
 
 
 export async function createLinkByUser(data:LinkFormData){
@@ -26,3 +27,27 @@ export async function createLinkByUser(data:LinkFormData){
         data:link
     }
 }
+
+ export async function getAllLinkForUser(){
+    const user=await currentUser()
+    const links=await db.link.findMany({
+        where:{
+            user:{
+                clerkId:user?.id
+            }
+        },
+        select:{
+            id:true,
+               title:true,
+               description:true,
+               url:true,
+               clickCount:true,
+               createAt:true,
+        }
+    })
+    return {
+        success:true,
+        message:"Gets All link successfully",
+        data:links
+    }
+ }
